@@ -3902,16 +3902,19 @@ layui.define(['layer', 'form', 'laytpl'], function (exports) {
         let tpl = '';
         let provinceList = getList("province");
         let currentCode = '';
+        let currentName = '';
         provinceList.forEach(function(_item){
           if (!currentCode){
             currentCode = _item.code;
-            options.data.province = _item.name;
+            currentName = _item.name;
           }
           if(_item.name === options.data.province){
             currentCode = _item.code;
+            currentName = _item.name;
           }
           tpl += '<option value="'+_item.name+'">'+_item.name+'</option>';
         });
+        options.data.province = currentName;
         provinceEl.html(tpl);
         provinceEl.val(options.data.province);
         form.render('select');
@@ -3922,16 +3925,19 @@ layui.define(['layer', 'form', 'laytpl'], function (exports) {
         let tpl = '';
         let cityList = getList('city', provinceCode.slice(0, 2));
         let currentCode = '';
+        let currentName = '';
         cityList.forEach(function(_item){
           if (!currentCode){
             currentCode = _item.code;
-            options.data.city = _item.name;
+            currentName = _item.name;
           }
           if(_item.name === options.data.city){
             currentCode = _item.code;
+            currentName = _item.name;
           }
           tpl += '<option value="'+_item.name+'">'+_item.name+'</option>';
         });
+        options.data.city = currentName;
         cityEl.html(tpl);
         cityEl.val(options.data.city);
         form.render('select');
@@ -3942,18 +3948,21 @@ layui.define(['layer', 'form', 'laytpl'], function (exports) {
         let tpl = '';
         let countyList = getList('county', cityCode.slice(0, 4));
         let currentCode = '';
+        let currentName = '';
         countyList.forEach(function(_item){
           if (!currentCode){
             currentCode = _item.code;
-            options.data.city = _item.name;
+            currentName = _item.name;
           }
           if(_item.name === options.data.county){
             currentCode = _item.code;
+            currentName = _item.name;
           }
           tpl += '<option value="'+_item.name+'">'+_item.name+'</option>';
         });
+        options.data.county = currentName;
         countyEl.html(tpl);
-        countyEl.val(options.data.city);
+        countyEl.val(options.data.county);
   
         form.render('select');
       }
