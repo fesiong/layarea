@@ -3822,6 +3822,9 @@ layui.define(['layer', 'form', 'laytpl'], function (exports) {
         province: '--选择省--',
         city: '--选择市--',
         county: '--选择区--',
+        provinceCode: 0,
+        cityCode: 0,
+        countyCode: 0,
       },
       change: function(result){}
     };
@@ -3878,20 +3881,21 @@ layui.define(['layer', 'form', 'laytpl'], function (exports) {
       form.on('select('+provinceFilter+')', function(data){
         options.data.province = data.value;
         let code = getCode('province', data.value);
+        options.data.provinceCode = code;
         renderCity(code);
   
         options.change(options.data);
       });
       form.on('select('+cityFilter+')', function(data){
         options.data.city = data.value;
-        let code = getCode('city', data.value);
+        let code = getCode('city', data.value, options.data.provinceCode.slice(0, 2));
+        options.data.cityCode = code;
         renderCounty(code);
   
         options.change(options.data);
       });
       form.on('select('+countyFilter+')', function(data){
         options.data.county = data.value;
-  
         options.change(options.data);
       });
   
@@ -3996,15 +4000,25 @@ layui.define(['layer', 'form', 'laytpl'], function (exports) {
         return result;
       }
   
-      function getCode(type, name){
+      function getCode(type, name, parentCode = 0){
         let code = '';
         let list = areaList[type + "_list"] || {};
-        layui.each(list, function(_code, _name){
+        let result = {};
+        Object.keys(list).map(function (_code) {
+          if(parentCode){
+            if(_code.indexOf(parentCode) === 0){
+              result[_code] = list[_code];
+            }
+          }else{
+            result[_code] = list[_code];
+          }
+        });
+        layui.each(result, function(_code, _name){
           if(_name === name){
             code = _code;
           }
         });
-  
+
         return code;
       }
     };
