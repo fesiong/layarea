@@ -3866,12 +3866,16 @@ layui.define(['layer', 'form', 'laytpl'], function (exports) {
       //获取默认值
       if(provinceEl.data('value')){
         options.data.province = provinceEl.data('value');
+        options.data.provinceCode = getCode('province', options.data.province);
       }
       if(cityEl.data('value')){
         options.data.city = cityEl.data('value');
+        let code = getCode('city', options.data.city, options.data.provinceCode.slice(0, 2));
+        options.data.cityCode = code;
       }
       if(countyEl.data('value')){
         options.data.county = countyEl.data('value');
+        options.data.countyCode = getCode('county', options.data.county, options.data.cityCode.slice(0, 4));
       }
       provinceEl.attr('lay-filter', provinceFilter);
       cityEl.attr('lay-filter', cityFilter);
@@ -3880,22 +3884,21 @@ layui.define(['layer', 'form', 'laytpl'], function (exports) {
       //监听结果
       form.on('select('+provinceFilter+')', function(data){
         options.data.province = data.value;
-        let code = getCode('province', data.value);
-        options.data.provinceCode = code;
+        options.data.provinceCode = getCode('province', data.value);
         renderCity(code);
   
         options.change(options.data);
       });
       form.on('select('+cityFilter+')', function(data){
         options.data.city = data.value;
-        let code = getCode('city', data.value, options.data.provinceCode.slice(0, 2));
-        options.data.cityCode = code;
+        options.data.cityCode = getCode('city', data.value, options.data.provinceCode.slice(0, 2));
         renderCounty(code);
   
         options.change(options.data);
       });
       form.on('select('+countyFilter+')', function(data){
         options.data.county = data.value;
+        options.data.countyCode = getCode('county', data.value, options.data.cityCode.slice(0, 4));
         options.change(options.data);
       });
   
