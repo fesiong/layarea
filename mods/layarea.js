@@ -3885,14 +3885,14 @@ layui.define(['layer', 'form', 'laytpl'], function (exports) {
       form.on('select('+provinceFilter+')', function(data){
         options.data.province = data.value;
         options.data.provinceCode = getCode('province', data.value);
-        renderCity(code);
+        renderCity(options.data.provinceCode);
   
         options.change(options.data);
       });
       form.on('select('+cityFilter+')', function(data){
         options.data.city = data.value;
         options.data.cityCode = getCode('city', data.value, options.data.provinceCode.slice(0, 2));
-        renderCounty(code);
+        renderCounty(options.data.cityCode);
   
         options.change(options.data);
       });
