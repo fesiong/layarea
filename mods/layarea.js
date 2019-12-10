@@ -3819,9 +3819,9 @@ layui.define(['layer', 'form', 'laytpl'], function (exports) {
     Class.prototype.config = {
       elem: '',
       data: {
-        province: '--选择省--',
-        city: '--选择市--',
-        county: '--选择区--',
+        province: '',
+        city: '',
+        county: '',
         provinceCode: 0,
         cityCode: 0,
         countyCode: 0,
@@ -3891,14 +3891,18 @@ layui.define(['layer', 'form', 'laytpl'], function (exports) {
       });
       form.on('select('+cityFilter+')', function(data){
         options.data.city = data.value;
-        options.data.cityCode = getCode('city', data.value, options.data.provinceCode.slice(0, 2));
-        renderCounty(options.data.cityCode);
+        if(options.data.provinceCode){
+            options.data.cityCode = getCode('city', data.value, options.data.provinceCode.slice(0, 2));
+            renderCounty(options.data.cityCode);
+        }
   
         options.change(options.data);
       });
       form.on('select('+countyFilter+')', function(data){
         options.data.county = data.value;
-        options.data.countyCode = getCode('county', data.value, options.data.cityCode.slice(0, 4));
+        if(options.data.cityCode){
+            options.data.countyCode = getCode('county', data.value, options.data.cityCode.slice(0, 4));
+        }
         options.change(options.data);
       });
   
@@ -3906,22 +3910,21 @@ layui.define(['layer', 'form', 'laytpl'], function (exports) {
   
       //查找province
       function renderProvince(){
-        let tpl = '';
+        let tpl = '<option value="">--选择省--</option>';
         let provinceList = getList("province");
         let currentCode = '';
         let currentName = '';
         provinceList.forEach(function(_item){
-          if (!currentCode){
-            currentCode = _item.code;
-            currentName = _item.name;
-          }
+          // if (!currentCode){
+          //   currentCode = _item.code;
+          //   currentName = _item.name;
+          // }
           if(_item.name === options.data.province){
             currentCode = _item.code;
             currentName = _item.name;
           }
           tpl += '<option value="'+_item.name+'">'+_item.name+'</option>';
         });
-        options.data.province = currentName;
         provinceEl.html(tpl);
         provinceEl.val(options.data.province);
         form.render('select');
@@ -3929,15 +3932,15 @@ layui.define(['layer', 'form', 'laytpl'], function (exports) {
       }
   
       function renderCity(provinceCode){
-        let tpl = '';
+        let tpl = '<option value="">--选择市--</option>';
         let cityList = getList('city', provinceCode.slice(0, 2));
         let currentCode = '';
         let currentName = '';
         cityList.forEach(function(_item){
-          if (!currentCode){
-            currentCode = _item.code;
-            currentName = _item.name;
-          }
+          // if (!currentCode){
+          //   currentCode = _item.code;
+          //   currentName = _item.name;
+          // }
           if(_item.name === options.data.city){
             currentCode = _item.code;
             currentName = _item.name;
@@ -3952,15 +3955,15 @@ layui.define(['layer', 'form', 'laytpl'], function (exports) {
       }
   
       function renderCounty(cityCode){
-        let tpl = '';
+        let tpl = '<option value="">--选择区--</option>';
         let countyList = getList('county', cityCode.slice(0, 4));
         let currentCode = '';
         let currentName = '';
         countyList.forEach(function(_item){
-          if (!currentCode){
-            currentCode = _item.code;
-            currentName = _item.name;
-          }
+          // if (!currentCode){
+          //   currentCode = _item.code;
+          //   currentName = _item.name;
+          // }
           if(_item.name === options.data.county){
             currentCode = _item.code;
             currentName = _item.name;
