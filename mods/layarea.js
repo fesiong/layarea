@@ -22,6 +22,8 @@ layui.define(['layer', 'form', 'laytpl'], function (exports) {
           that.layarea.call(that, files);
         }
         , config: that.config
+        , reload: that.reload
+        , events: that.events
       }
     }
         , Class = function (options) {
@@ -3847,8 +3849,14 @@ layui.define(['layer', 'form', 'laytpl'], function (exports) {
   
       that.events();
     };
+      
+    Class.prototype.reload = function (op) {
+      let options = this.config;
+      options.data = $.extend(options.data, op.data || {});
+      this.events(true);
+    };
   
-    Class.prototype.events = function () {
+    Class.prototype.events = function (reload = false) {
       let that = this, options = that.config;
       let provinceFilter = 'province-' + layarea._id;
       let cityFilter = 'city-' + layarea._id;
@@ -3857,7 +3865,15 @@ layui.define(['layer', 'form', 'laytpl'], function (exports) {
       let provinceEl = options.elem.find('.province-selector');
       let cityEl = options.elem.find('.city-selector');
       let countyEl = options.elem.find('.county-selector');
-  
+
+      if (reload){
+        options.data.provinceCode = getCode('province', options.data.province);
+        let code = getCode('city', options.data.city, options.data.provinceCode.slice(0, 2));
+        options.data.cityCode = code;
+        options.data.countyCode = getCode('county', options.data.county, options.data.cityCode.slice(0, 4));
+        renderProvince();
+        return;
+      }
       //filter
       if(provinceEl.attr('lay-filter')){
         provinceFilter = provinceEl.attr('lay-filter');
@@ -3876,27 +3892,26 @@ layui.define(['layer', 'form', 'laytpl'], function (exports) {
       if(provinceEl.data('value')){
         options.data.province = provinceEl.data('value');
         options.data.provinceCode = getCode('province', options.data.province);
-      } else {
+      } else if (!options.data.province) {
         options.data.province = '';
       }
       if(cityEl.data('value')){
         options.data.city = cityEl.data('value');
         let code = getCode('city', options.data.city, options.data.provinceCode.slice(0, 2));
         options.data.cityCode = code;
-      } else {
+      } else if (!options.data.city) {
         options.data.city = '';
       }
       if(countyEl.data('value')){
         options.data.county = countyEl.data('value');
         options.data.countyCode = getCode('county', options.data.county, options.data.cityCode.slice(0, 4));
-      } else {
+      } else if (!options.data.county) {
         options.data.county = '';
       }
       provinceEl.attr('lay-filter', provinceFilter);
       cityEl.attr('lay-filter', cityFilter);
       countyEl.attr('lay-filter', countyFilter);
-  
-      console.log(provinceFilter, options.data)
+
       //监听结果
       form.on('select('+provinceFilter+')', function(data){
         options.data.province = data.value;

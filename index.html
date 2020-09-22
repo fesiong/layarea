@@ -67,21 +67,21 @@
                 </select>
             </div>
         </div>
-        <div>实例4：使用默认值和指定filter</div>
+        <div>实例4：使用js赋值默认值和指定filter</div>
         <div class="layui-form-item" id="area-picker4">
             <div class="layui-form-label">网点地址4</div>
             <div class="layui-input-inline" style="width: 200px;">
-                <select name="province4" class="province-selector" data-value="广东省" lay-filter="province-4">
+                <select name="province4" class="province-selector" lay-filter="province-4">
                     <option value="">--选择省--</option>
                 </select>
             </div>
             <div class="layui-input-inline" style="width: 200px;">
-                <select name="city4" class="city-selector" data-value="深圳市" lay-filter="city-4">
+                <select name="city4" class="city-selector" lay-filter="city-4">
                     <option value="">--选择市--</option>
                 </select>
             </div>
             <div class="layui-input-inline" style="width: 200px;">
-                <select name="county4" class="county-selector" data-value="南山区" lay-filter="county-4">
+                <select name="county4" class="county-selector" lay-filter="county-4">
                     <option value="">--选择区--</option>
                 </select>
             </div>
@@ -100,7 +100,7 @@
                 , form = layui.form
                 , layarea = layui.layarea;
 
-            layarea.render({
+            let obj1 = layarea.render({
                 elem: '#area-picker',
                 change: function (res) {
                     //选择结果
@@ -123,11 +123,27 @@
             });
             layarea.render({
                 elem: '#area-picker4',
+                data: {
+                    province: "广东省",
+                    city: "深圳市",
+                    county: "龙岗区",
+                },
                 change: function (res) {
                     //选择结果
                     console.log(res);
                 }
             });
+
+            //第一个重载
+            setTimeout(() => {
+                obj1.reload({
+                    data: {
+                        province: "河北省",
+                        city: "邢台市",
+                        county: "柏乡县",
+                    }
+                });
+            }, 3000);
         });
     </script>
 </body>
