@@ -10,20 +10,78 @@
 
 <body>
     <div class="layui-form">
+        <div>实例1：默认</div>
         <div class="layui-form-item" id="area-picker">
-            <div class="layui-form-label">网点地址</div>
+            <div class="layui-form-label">网点地址1</div>
             <div class="layui-input-inline" style="width: 200px;">
-                <select name="province" class="province-selector" data-value="" lay-filter="province-1">
+                <select name="province" class="province-selector">
                     <option value="">--选择省--</option>
                 </select>
             </div>
             <div class="layui-input-inline" style="width: 200px;">
-                <select name="city" class="city-selector" data-value="" lay-filter="city-1">
+                <select name="city" class="city-selector">
                     <option value="">--选择市--</option>
                 </select>
             </div>
             <div class="layui-input-inline" style="width: 200px;">
-                <select name="county" class="county-selector" data-value="" lay-filter="county-1">
+                <select name="county" class="county-selector">
+                    <option value="">--选择区--</option>
+                </select>
+            </div>
+        </div>
+        <div>实例2：使用默认值</div>
+        <div class="layui-form-item" id="area-picker2">
+            <div class="layui-form-label">网点地址2</div>
+            <div class="layui-input-inline" style="width: 200px;">
+                <select name="province2" class="province-selector" data-value="广东省">
+                    <option value="">--选择省--</option>
+                </select>
+            </div>
+            <div class="layui-input-inline" style="width: 200px;">
+                <select name="city2" class="city-selector" data-value="广州市">
+                    <option value="">--选择市--</option>
+                </select>
+            </div>
+            <div class="layui-input-inline" style="width: 200px;">
+                <select name="county2" class="county-selector" data-value="天河区">
+                    <option value="">--选择区--</option>
+                </select>
+            </div>
+        </div>
+        <div>实例3：指定filter</div>
+        <div class="layui-form-item" id="area-picker3">
+            <div class="layui-form-label">网点地址3</div>
+            <div class="layui-input-inline" style="width: 200px;">
+                <select name="province3" class="province-selector" lay-filter="province-3">
+                    <option value="">--选择省--</option>
+                </select>
+            </div>
+            <div class="layui-input-inline" style="width: 200px;">
+                <select name="city3" class="city-selector" lay-filter="city-3">
+                    <option value="">--选择市--</option>
+                </select>
+            </div>
+            <div class="layui-input-inline" style="width: 200px;">
+                <select name="county3" class="county-selector" lay-filter="county-3">
+                    <option value="">--选择区--</option>
+                </select>
+            </div>
+        </div>
+        <div>实例4：使用默认值和指定filter</div>
+        <div class="layui-form-item" id="area-picker4">
+            <div class="layui-form-label">网点地址4</div>
+            <div class="layui-input-inline" style="width: 200px;">
+                <select name="province4" class="province-selector" data-value="广东省" lay-filter="province-4">
+                    <option value="">--选择省--</option>
+                </select>
+            </div>
+            <div class="layui-input-inline" style="width: 200px;">
+                <select name="city4" class="city-selector" data-value="深圳市" lay-filter="city-4">
+                    <option value="">--选择市--</option>
+                </select>
+            </div>
+            <div class="layui-input-inline" style="width: 200px;">
+                <select name="county4" class="county-selector" data-value="南山区" lay-filter="county-4">
                     <option value="">--选择区--</option>
                 </select>
             </div>
@@ -44,6 +102,27 @@
 
             layarea.render({
                 elem: '#area-picker',
+                change: function (res) {
+                    //选择结果
+                    console.log(res);
+                }
+            });
+            layarea.render({
+                elem: '#area-picker2',
+                change: function (res) {
+                    //选择结果
+                    console.log(res);
+                }
+            });
+            layarea.render({
+                elem: '#area-picker3',
+                change: function (res) {
+                    //选择结果
+                    console.log(res);
+                }
+            });
+            layarea.render({
+                elem: '#area-picker4',
                 change: function (res) {
                     //选择结果
                     console.log(res);

@@ -26,7 +26,17 @@ layui.define(['layer', 'form', 'laytpl'], function (exports) {
     }
         , Class = function (options) {
       let that = this;
-      that.config = $.extend({}, that.config, layarea.config, options);
+      that.config = $.extend({}, {
+        elem: '',
+        data: {
+          province: '',
+          city: '',
+          county: '',
+          provinceCode: 0,
+          cityCode: 0,
+          countyCode: 0,
+        }
+      }, options);
       that.render();
     };
   
@@ -3834,13 +3844,12 @@ layui.define(['layer', 'form', 'laytpl'], function (exports) {
     Class.prototype.render = function () {
       let that = this, options = that.config;
       options.elem = $(options.elem);
-      options.bindAction = $(options.bindAction);
   
       that.events();
     };
   
     Class.prototype.events = function () {
-      let that = this, options = that.config, index;
+      let that = this, options = that.config;
       let provinceFilter = 'province-' + layarea._id;
       let cityFilter = 'city-' + layarea._id;
       let countyFilter = 'county-' + layarea._id;
@@ -3867,20 +3876,27 @@ layui.define(['layer', 'form', 'laytpl'], function (exports) {
       if(provinceEl.data('value')){
         options.data.province = provinceEl.data('value');
         options.data.provinceCode = getCode('province', options.data.province);
+      } else {
+        options.data.province = '';
       }
       if(cityEl.data('value')){
         options.data.city = cityEl.data('value');
         let code = getCode('city', options.data.city, options.data.provinceCode.slice(0, 2));
         options.data.cityCode = code;
+      } else {
+        options.data.city = '';
       }
       if(countyEl.data('value')){
         options.data.county = countyEl.data('value');
         options.data.countyCode = getCode('county', options.data.county, options.data.cityCode.slice(0, 4));
+      } else {
+        options.data.county = '';
       }
       provinceEl.attr('lay-filter', provinceFilter);
       cityEl.attr('lay-filter', cityFilter);
       countyEl.attr('lay-filter', countyFilter);
   
+      console.log(provinceFilter, options.data)
       //监听结果
       form.on('select('+provinceFilter+')', function(data){
         options.data.province = data.value;
