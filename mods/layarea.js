@@ -3979,6 +3979,7 @@ layui.define(['layer', 'form', 'laytpl'], function (exports) {
           tpl += '<option value="'+_item.name+'">'+_item.name+'</option>';
         });
         options.data.city = currentName;
+        options.data.cityCode = currentCode;
         cityEl.html(tpl);
         cityEl.val(options.data.city);
         form.render('select');
@@ -4002,6 +4003,7 @@ layui.define(['layer', 'form', 'laytpl'], function (exports) {
           tpl += '<option value="'+_item.name+'">'+_item.name+'</option>';
         });
         options.data.county = currentName;
+        options.data.currentCode = currentCode;
         countyEl.html(tpl);
         countyEl.val(options.data.county);
   
