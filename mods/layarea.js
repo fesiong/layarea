@@ -3856,7 +3856,8 @@ layui.define(['layer', 'form', 'laytpl'], function (exports) {
       this.events(true);
     };
   
-    Class.prototype.events = function (reload = false) {
+    Class.prototype.events = function (reload) {
+      reload = reload || false;
       let that = this, options = that.config;
       let provinceFilter = 'province-' + layarea._id;
       let cityFilter = 'city-' + layarea._id;
@@ -4039,7 +4040,8 @@ layui.define(['layer', 'form', 'laytpl'], function (exports) {
         return result;
       }
   
-      function getCode(type, name, parentCode = 0){
+      function getCode(type, name, parentCode){
+        parentCode = parentCode || 0;
         let code = '';
         let list = areaList[type + "_list"] || {};
         let result = {};
